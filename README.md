@@ -87,13 +87,23 @@ Sentinel-2 carries no thermal infrared instrument. That is a documented fact, no
 
 ## Installation
 
-Python 3.11 or newer.
+Python 3.11 or newer. The only runtime dependency is PyYAML.
+
+**Install the released version directly from GitHub:**
 
 ```bash
+pip install "git+https://github.com/orbseekr-labs/eo-feasibility-lint.git@v0.1.0"
+```
+
+**Or install from a local clone**, which you will want if you intend to run the tests or read the mission catalog alongside the code:
+
+```bash
+git clone https://github.com/orbseekr-labs/eo-feasibility-lint.git
+cd eo-feasibility-lint
 pip install .
 ```
 
-The only runtime dependency is PyYAML.
+Either method installs the `eo-feasibility-lint` command. The package is not published on PyPI.
 
 ---
 
