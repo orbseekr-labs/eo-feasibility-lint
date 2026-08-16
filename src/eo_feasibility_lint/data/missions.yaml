@@ -1,0 +1,419 @@
+# Static mission capability catalog for eo-feasibility-lint v0.1.
+#
+# This file is the ONLY source of mission facts at runtime. It is never fetched,
+# refreshed, or extended at runtime. Every capability consumed by a rule cites at
+# least one first-party source id from sources.yaml via `capability_sources`.
+#
+# Band families are deliberate abstractions, not individual instrument bands.
+# A band family that is absent from a mission's `bands` map is treated as
+# unavailable.
+#
+# `default_multispectral_gsd_m` is explicit catalog data, not a derived value.
+# It is the resolution used when an optical GSD requirement names no specific
+# spectral family. It is never inferred from band ordering or from the minimum
+# band resolution, and panchromatic never contributes to it.
+#
+# `night_support` is resolved per band family with this chain:
+#   1. an exact band-family key (e.g. `thermal_ir`)
+#   2. the family's group key (`reflected_optical`, `thermal_ir`, `c_band_sar`)
+# There is no implicit default. Every AVAILABLE band family must resolve
+# explicitly to true, false or occasional; catalog integrity validation fails
+# otherwise. Missing night-support metadata is a catalog defect, never evidence
+# that a mission lacks the capability.
+#
+# `modality_inventory_source_ids` and `band_inventory_source_ids` designate the
+# sources that are authoritative for the COMPLETE modality and band inventory of
+# a mission. Negative-capability findings ("this mission has no thermal band")
+# cite them. There is no generic mission-level provenance fallback.
+
+catalog_version: "2026-08-15.1"
+
+missions:
+  - id: sentinel-2
+    display_name: Copernicus Sentinel-2
+
+    modalities:
+      - optical_multispectral
+
+    nominal_revisit:
+      days: 5
+      scope: equator_constellation_nominal
+
+    swath_km: 290
+
+    default_multispectral_gsd_m: 10
+
+    night_support:
+      reflected_optical: false
+
+    all_weather: false
+
+    bands:
+      visible:
+        available: true
+        resolution_m: 10
+      nir:
+        available: true
+        resolution_m: 10
+      red_edge:
+        available: true
+        resolution_m: 20
+      swir:
+        available: true
+        resolution_m: 20
+      coastal_aerosol:
+        available: true
+        resolution_m: 60
+      water_vapor:
+        available: true
+        resolution_m: 60
+      cirrus:
+        available: true
+        resolution_m: 60
+      panchromatic:
+        available: false
+      thermal_ir:
+        available: false
+      c_band_sar:
+        available: false
+
+    source_ids:
+      - esa-sentiwiki-s2-mission
+
+    modality_inventory_source_ids:
+      - esa-sentiwiki-s2-mission
+    band_inventory_source_ids:
+      - esa-sentiwiki-s2-mission
+
+    capability_sources:
+      modalities: [esa-sentiwiki-s2-mission]
+      nominal_revisit: [esa-sentiwiki-s2-mission]
+      swath_km: [esa-sentiwiki-s2-mission]
+      default_multispectral_gsd_m: [esa-sentiwiki-s2-mission]
+      all_weather: [esa-sentiwiki-s2-mission]
+      night_support: [esa-sentiwiki-s2-mission]
+      bands.visible: [esa-sentiwiki-s2-mission]
+      bands.nir: [esa-sentiwiki-s2-mission]
+      bands.red_edge: [esa-sentiwiki-s2-mission]
+      bands.swir: [esa-sentiwiki-s2-mission]
+      bands.coastal_aerosol: [esa-sentiwiki-s2-mission]
+      bands.water_vapor: [esa-sentiwiki-s2-mission]
+      bands.cirrus: [esa-sentiwiki-s2-mission]
+      bands.panchromatic: [esa-sentiwiki-s2-mission]
+      bands.thermal_ir: [esa-sentiwiki-s2-mission]
+      bands.c_band_sar: [esa-sentiwiki-s2-mission]
+
+  - id: sentinel-1-iw
+    display_name: Copernicus Sentinel-1 IW
+
+    modalities:
+      - sar_c_band
+
+    nominal_revisit:
+      days: 6
+      scope: equator_two_satellite_nominal
+
+    swath_km: 250
+
+    night_support:
+      c_band_sar: true
+
+    all_weather: true
+
+    bands:
+      c_band_sar:
+        available: true
+        resolution:
+          range_m: 5
+          azimuth_m: 20
+      visible:
+        available: false
+      nir:
+        available: false
+      red_edge:
+        available: false
+      swir:
+        available: false
+      thermal_ir:
+        available: false
+      panchromatic:
+        available: false
+
+    source_ids:
+      - esa-sentiwiki-s1-mission
+      - esa-sentiwiki-s1-products
+      - esa-s1-facts-and-figures
+
+    modality_inventory_source_ids:
+      - esa-sentiwiki-s1-mission
+    band_inventory_source_ids:
+      - esa-sentiwiki-s1-mission
+      - esa-sentiwiki-s1-products
+
+    capability_sources:
+      modalities: [esa-sentiwiki-s1-mission]
+      nominal_revisit: [esa-s1-facts-and-figures, esa-sentiwiki-s1-mission]
+      swath_km: [esa-sentiwiki-s1-products, esa-sentiwiki-s1-mission]
+      all_weather: [esa-sentiwiki-s1-mission]
+      night_support: [esa-sentiwiki-s1-mission]
+      bands.c_band_sar: [esa-sentiwiki-s1-products, esa-sentiwiki-s1-mission]
+      bands.visible: [esa-sentiwiki-s1-mission]
+      bands.nir: [esa-sentiwiki-s1-mission]
+      bands.red_edge: [esa-sentiwiki-s1-mission]
+      bands.swir: [esa-sentiwiki-s1-mission]
+      bands.thermal_ir: [esa-sentiwiki-s1-mission]
+      bands.panchromatic: [esa-sentiwiki-s1-mission]
+
+  - id: landsat-8
+    display_name: Landsat 8
+
+    modalities:
+      - optical_multispectral
+      - thermal_ir
+
+    nominal_revisit:
+      days: 16
+      scope: nominal_repeat_cycle
+
+    swath_km: 185
+
+    default_multispectral_gsd_m: 30
+
+    night_support:
+      visible: false
+      coastal_aerosol: false
+      nir: false
+      swir: false
+      cirrus: false
+      panchromatic: false
+      thermal_ir: occasional
+
+    all_weather: false
+
+    bands:
+      visible:
+        available: true
+        resolution_m: 30
+      coastal_aerosol:
+        available: true
+        resolution_m: 30
+      nir:
+        available: true
+        resolution_m: 30
+      swir:
+        available: true
+        resolution_m: 30
+      panchromatic:
+        available: true
+        resolution_m: 15
+      cirrus:
+        available: true
+        resolution_m: 30
+      thermal_ir:
+        available: true
+        resolution_m: 100
+      red_edge:
+        available: false
+      water_vapor:
+        available: false
+      c_band_sar:
+        available: false
+
+    source_ids:
+      - usgs-landsat-8
+      - usgs-landsat-acquisition-schedules
+      - usgs-landsat-acquisition-plan
+
+    modality_inventory_source_ids:
+      - usgs-landsat-8
+    band_inventory_source_ids:
+      - usgs-landsat-8
+
+    capability_sources:
+      modalities: [usgs-landsat-8]
+      nominal_revisit: [usgs-landsat-8, usgs-landsat-acquisition-schedules]
+      swath_km: [usgs-landsat-8]
+      default_multispectral_gsd_m: [usgs-landsat-8]
+      all_weather: [usgs-landsat-8]
+      night_support: [usgs-landsat-acquisition-schedules, usgs-landsat-acquisition-plan]
+      bands.visible: [usgs-landsat-8]
+      bands.coastal_aerosol: [usgs-landsat-8]
+      bands.nir: [usgs-landsat-8]
+      bands.swir: [usgs-landsat-8]
+      bands.panchromatic: [usgs-landsat-8]
+      bands.cirrus: [usgs-landsat-8]
+      bands.thermal_ir: [usgs-landsat-8]
+      bands.red_edge: [usgs-landsat-8]
+      bands.water_vapor: [usgs-landsat-8]
+      bands.c_band_sar: [usgs-landsat-8]
+
+  - id: landsat-9
+    display_name: Landsat 9
+
+    modalities:
+      - optical_multispectral
+      - thermal_ir
+
+    nominal_revisit:
+      days: 16
+      scope: nominal_repeat_cycle
+
+    swath_km: 185
+
+    default_multispectral_gsd_m: 30
+
+    night_support:
+      visible: false
+      coastal_aerosol: false
+      nir: false
+      swir: false
+      cirrus: false
+      panchromatic: false
+      thermal_ir: occasional
+
+    all_weather: false
+
+    bands:
+      visible:
+        available: true
+        resolution_m: 30
+      coastal_aerosol:
+        available: true
+        resolution_m: 30
+      nir:
+        available: true
+        resolution_m: 30
+      swir:
+        available: true
+        resolution_m: 30
+      panchromatic:
+        available: true
+        resolution_m: 15
+      cirrus:
+        available: true
+        resolution_m: 30
+      thermal_ir:
+        available: true
+        resolution_m: 100
+      red_edge:
+        available: false
+      water_vapor:
+        available: false
+      c_band_sar:
+        available: false
+
+    source_ids:
+      - usgs-landsat-9
+      - usgs-landsat-acquisition-schedules
+      - usgs-landsat-acquisition-plan
+
+    modality_inventory_source_ids:
+      - usgs-landsat-9
+    band_inventory_source_ids:
+      - usgs-landsat-9
+
+    capability_sources:
+      modalities: [usgs-landsat-9]
+      nominal_revisit: [usgs-landsat-9, usgs-landsat-acquisition-schedules]
+      swath_km: [usgs-landsat-9]
+      default_multispectral_gsd_m: [usgs-landsat-9]
+      all_weather: [usgs-landsat-9]
+      night_support: [usgs-landsat-acquisition-schedules, usgs-landsat-acquisition-plan]
+      bands.visible: [usgs-landsat-9]
+      bands.coastal_aerosol: [usgs-landsat-9]
+      bands.nir: [usgs-landsat-9]
+      bands.swir: [usgs-landsat-9]
+      bands.panchromatic: [usgs-landsat-9]
+      bands.cirrus: [usgs-landsat-9]
+      bands.thermal_ir: [usgs-landsat-9]
+      bands.red_edge: [usgs-landsat-9]
+      bands.water_vapor: [usgs-landsat-9]
+      bands.c_band_sar: [usgs-landsat-9]
+
+  # Combined nominal Landsat 8 + Landsat 9 constellation cadence.
+  # This is NOT a separate spacecraft and does NOT mean simultaneous coverage.
+  - id: landsat-8-9
+    display_name: Landsat 8 + Landsat 9
+
+    modalities:
+      - optical_multispectral
+      - thermal_ir
+
+    nominal_revisit:
+      days: 8
+      scope: nominal_combined_offset
+
+    swath_km: 185
+
+    default_multispectral_gsd_m: 30
+
+    night_support:
+      visible: false
+      coastal_aerosol: false
+      nir: false
+      swir: false
+      cirrus: false
+      panchromatic: false
+      thermal_ir: occasional
+
+    all_weather: false
+
+    bands:
+      visible:
+        available: true
+        resolution_m: 30
+      coastal_aerosol:
+        available: true
+        resolution_m: 30
+      nir:
+        available: true
+        resolution_m: 30
+      swir:
+        available: true
+        resolution_m: 30
+      panchromatic:
+        available: true
+        resolution_m: 15
+      cirrus:
+        available: true
+        resolution_m: 30
+      thermal_ir:
+        available: true
+        resolution_m: 100
+      red_edge:
+        available: false
+      water_vapor:
+        available: false
+      c_band_sar:
+        available: false
+
+    source_ids:
+      - usgs-landsat-8
+      - usgs-landsat-9
+      - usgs-landsat-acquisition-schedules
+      - usgs-landsat-acquisition-plan
+
+    modality_inventory_source_ids:
+      - usgs-landsat-8
+      - usgs-landsat-9
+    band_inventory_source_ids:
+      - usgs-landsat-8
+      - usgs-landsat-9
+
+    capability_sources:
+      modalities: [usgs-landsat-8, usgs-landsat-9]
+      nominal_revisit: [usgs-landsat-acquisition-schedules, usgs-landsat-acquisition-plan]
+      swath_km: [usgs-landsat-8, usgs-landsat-9]
+      default_multispectral_gsd_m: [usgs-landsat-8, usgs-landsat-9]
+      all_weather: [usgs-landsat-8, usgs-landsat-9]
+      night_support: [usgs-landsat-acquisition-schedules, usgs-landsat-acquisition-plan]
+      bands.visible: [usgs-landsat-8, usgs-landsat-9]
+      bands.coastal_aerosol: [usgs-landsat-8, usgs-landsat-9]
+      bands.nir: [usgs-landsat-8, usgs-landsat-9]
+      bands.swir: [usgs-landsat-8, usgs-landsat-9]
+      bands.panchromatic: [usgs-landsat-8, usgs-landsat-9]
+      bands.cirrus: [usgs-landsat-8, usgs-landsat-9]
+      bands.thermal_ir: [usgs-landsat-8, usgs-landsat-9]
+      bands.red_edge: [usgs-landsat-8, usgs-landsat-9]
+      bands.water_vapor: [usgs-landsat-8, usgs-landsat-9]
+      bands.c_band_sar: [usgs-landsat-8, usgs-landsat-9]

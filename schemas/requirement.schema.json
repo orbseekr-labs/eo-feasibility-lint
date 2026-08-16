@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbseekr-labs.github.io/eo-feasibility-lint/schemas/requirement.schema.json",
+  "title": "eo-feasibility-lint requirement document",
+  "description": "Documentation of the v0.1 requirement contract. The runtime validates with a hand-written validator (loader.py) because the runtime dependency surface is limited to PyYAML; tests/test_schema.py keeps the two in sync.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "name", "requirements"],
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "objective": {
+      "type": "string",
+      "description": "Human-readable metadata. Never parsed by the rule engine."
+    },
+    "candidate_missions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Alternatives. Omit to evaluate every mission in the catalog.",
+      "items": {
+        "enum": [
+          "sentinel-1-iw",
+          "sentinel-2",
+          "landsat-8",
+          "landsat-9",
+          "landsat-8-9"
+        ]
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["output"],
+      "properties": {
+        "modality_any_of": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["optical_multispectral", "thermal_ir", "sar_c_band"]
+          }
+        },
+        "spectral_bands_all_of": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "visible",
+              "coastal_aerosol",
+              "nir",
+              "red_edge",
+              "swir",
+              "water_vapor",
+              "cirrus",
+              "panchromatic",
+              "thermal_ir",
+              "c_band_sar"
+            ]
+          }
+        },
+        "spatial": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Optical GSD, thermal GSD and SAR resolution are separate measurements and are never interchangeable.",
+          "properties": {
+            "optical_max_gsd_m": { "type": "number", "exclusiveMinimum": 0 },
+            "thermal_max_gsd_m": { "type": "number", "exclusiveMinimum": 0 },
+            "sar_max_resolution_m": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        },
+        "temporal": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max_nominal_revisit_days": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        },
+        "illumination": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "must_support_night": { "type": "boolean" }
+          }
+        },
+        "weather": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "must_support_all_weather": { "type": "boolean" }
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Single-pass width only. Mosaicking is not evaluated.",
+          "properties": {
+            "min_single_pass_swath_km": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        },
+        "output": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": {
+              "enum": [
+                "instrument_measurement",
+                "derived_product",
+                "model_inference",
+                "business_metric"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

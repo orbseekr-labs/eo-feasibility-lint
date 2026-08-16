@@ -1,0 +1,36 @@
+schema_version: "0.1"
+
+name: sentinel1-all-weather
+
+objective: >
+  Acquire C-band SAR backscatter regardless of cloud cover or daylight. All
+  three constraints are compatible with the Sentinel-1 IW profile.
+
+candidate_missions:
+  - sentinel-1-iw
+
+requirements:
+
+  modality_any_of:
+    - sar_c_band
+
+  spectral_bands_all_of:
+    - c_band_sar
+
+  spatial:
+    sar_max_resolution_m: 20
+
+  temporal:
+    max_nominal_revisit_days: 6
+
+  illumination:
+    must_support_night: true
+
+  weather:
+    must_support_all_weather: true
+
+  coverage:
+    min_single_pass_swath_km: 200
+
+  output:
+    kind: instrument_measurement

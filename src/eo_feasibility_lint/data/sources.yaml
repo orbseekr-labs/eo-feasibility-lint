@@ -1,0 +1,47 @@
+# First-party source registry for the eo-feasibility-lint v0.1 mission catalog.
+#
+# These URLs are PROVENANCE ONLY. The runtime never fetches them.
+# Every mission capability consumed by a rule must cite one or more of these ids.
+
+sources:
+  - id: esa-sentiwiki-s2-mission
+    publisher: ESA / Copernicus
+    title: Sentinel-2 Mission
+    url: https://sentiwiki.copernicus.eu/web/s2-mission
+
+  - id: esa-s1-facts-and-figures
+    publisher: ESA
+    title: Sentinel-1 Facts and Figures
+    url: https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-1/Facts_and_figures
+
+  - id: esa-sentiwiki-s1-mission
+    publisher: ESA / Copernicus
+    title: Sentinel-1 Mission
+    url: https://sentiwiki.copernicus.eu/web/s1-mission
+
+  - id: esa-sentiwiki-s1-products
+    publisher: ESA / Copernicus
+    title: Sentinel-1 Products
+    url: https://sentiwiki.copernicus.eu/web/s1-products
+
+  - id: usgs-landsat-8
+    publisher: USGS
+    title: Landsat 8
+    url: https://www.usgs.gov/landsat-missions/landsat-8
+
+  - id: usgs-landsat-9
+    publisher: USGS
+    title: Landsat 9
+    url: https://www.usgs.gov/landsat-missions/landsat-9
+
+  - id: usgs-landsat-acquisition-schedules
+    publisher: USGS
+    title: What are the acquisition schedules for the Landsat satellites?
+    url: https://www.usgs.gov/faqs/what-are-acquisition-schedules-landsat-satellites
+
+  - id: usgs-landsat-acquisition-plan
+    publisher: USGS
+    title: >-
+      Landsat 8-9 Long Term Acquisition Plan for Earth's Continental Landmasses
+      and Near-Shore Coastal Regions
+    url: https://www.usgs.gov/data/landsat-89-long-term-acquisition-plan-earths-continental-landmasses-and-near-shore-coastal

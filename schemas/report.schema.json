@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbseekr-labs.github.io/eo-feasibility-lint/schemas/report.schema.json",
+  "title": "eo-feasibility-lint JSON report",
+  "description": "The v0.1 agent interface, produced by `check --format json`. Deterministic: it never contains a timestamp, hostname, username, filesystem path or random id.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ruleset_version",
+    "catalog_version",
+    "requirement",
+    "portfolio_verdict",
+    "mission_results"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "ruleset_version": { "type": "string" },
+    "catalog_version": { "type": "string" },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string" }
+      }
+    },
+    "portfolio_verdict": {
+      "$ref": "#/$defs/verdict",
+      "description": "Best verdict across candidates: PASS > CONDITIONAL > UNKNOWN > FAIL."
+    },
+    "mission_results": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/missionResult" }
+    }
+  },
+  "$defs": {
+    "verdict": {
+      "enum": ["PASS", "CONDITIONAL", "UNKNOWN", "FAIL"]
+    },
+    "missionResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mission_id", "verdict", "findings"],
+      "properties": {
+        "mission_id": { "type": "string" },
+        "verdict": {
+          "$ref": "#/$defs/verdict",
+          "description": "Worst finding effect: FAIL > UNKNOWN > CONDITIONAL > PASS."
+        },
+        "findings": {
+          "type": "array",
+          "description": "Ordered by ascending reason code. A code may appear more than once.",
+          "items": { "$ref": "#/$defs/finding" }
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "effect",
+        "title",
+        "message",
+        "required",
+        "capability",
+        "source_ids"
+      ],
+      "properties": {
+        "code": { "type": "string", "pattern": "^EFL[0-9]{3}$" },
+        "effect": { "$ref": "#/$defs/verdict" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "required": { "type": "object" },
+        "capability": { "type": "object" },
+        "source_ids": {
+          "type": "array",
+          "description": "Non-empty whenever the finding depends on a mission capability.",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

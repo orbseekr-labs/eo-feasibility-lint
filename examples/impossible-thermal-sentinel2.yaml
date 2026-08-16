@@ -1,0 +1,21 @@
+schema_version: "0.1"
+
+name: impossible-thermal-sentinel2
+
+objective: >
+  Measure surface temperature with Sentinel-2. Sentinel-2 carries no thermal
+  infrared instrument, so this requirement is rejected outright.
+
+candidate_missions:
+  - sentinel-2
+
+requirements:
+
+  modality_any_of:
+    - thermal_ir
+
+  spectral_bands_all_of:
+    - thermal_ir
+
+  output:
+    kind: instrument_measurement

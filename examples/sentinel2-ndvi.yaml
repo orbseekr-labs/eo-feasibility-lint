@@ -1,0 +1,34 @@
+schema_version: "0.1"
+
+name: sentinel2-ndvi
+
+objective: >
+  Produce a vegetation index over agricultural fields. The objective text is
+  human-readable metadata only: it is never parsed by the rule engine.
+
+candidate_missions:
+  - sentinel-2
+
+requirements:
+
+  modality_any_of:
+    - optical_multispectral
+
+  spectral_bands_all_of:
+    - visible
+    - nir
+
+  spatial:
+    optical_max_gsd_m: 10
+
+  temporal:
+    max_nominal_revisit_days: 5
+
+  illumination:
+    must_support_night: false
+
+  weather:
+    must_support_all_weather: false
+
+  output:
+    kind: derived_product

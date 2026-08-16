@@ -1,0 +1,28 @@
+schema_version: "0.1"
+
+name: landsat-night-thermal
+
+objective: >
+  Acquire thermal infrared measurements at night. Landsat night thermal
+  acquisition is technically possible but is not treated as guaranteed nominal
+  coverage, so the verdict is CONDITIONAL rather than PASS.
+
+candidate_missions:
+  - landsat-8
+
+requirements:
+
+  modality_any_of:
+    - thermal_ir
+
+  spectral_bands_all_of:
+    - thermal_ir
+
+  spatial:
+    thermal_max_gsd_m: 100
+
+  illumination:
+    must_support_night: true
+
+  output:
+    kind: instrument_measurement

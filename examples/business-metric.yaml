@@ -1,0 +1,29 @@
+schema_version: "0.1"
+
+name: retail-site-revenue
+
+objective: >
+  Estimate retail revenue from satellite observation. The linter never converts
+  this sentence into technical requirements, and never scores business
+  viability. It only checks the explicit requirements listed below.
+
+candidate_missions:
+  - sentinel-2
+  - landsat-8-9
+
+requirements:
+
+  modality_any_of:
+    - optical_multispectral
+
+  spectral_bands_all_of:
+    - visible
+
+  spatial:
+    optical_max_gsd_m: 10
+
+  temporal:
+    max_nominal_revisit_days: 5
+
+  output:
+    kind: business_metric
