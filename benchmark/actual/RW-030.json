@@ -1,0 +1,281 @@
+{
+  "schema_version": "0.1",
+  "ruleset_version": "0.1.0",
+  "catalog_version": "2026-08-15.1",
+  "requirement": {
+    "name": "rw-030"
+  },
+  "portfolio_verdict": "FAIL",
+  "mission_results": [
+    {
+      "mission_id": "sentinel-2",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL201",
+          "effect": "FAIL",
+          "title": "Required modality unavailable",
+          "message": "The mission does not provide the thermal_ir modality implied by the spatial.thermal_max_gsd_m requirement.",
+          "required": {
+            "modality": "thermal_ir",
+            "implied_by": "spatial.thermal_max_gsd_m"
+          },
+          "capability": {
+            "modalities": [
+              "optical_multispectral"
+            ]
+          },
+          "source_ids": [
+            "esa-sentiwiki-s2-mission"
+          ]
+        },
+        {
+          "code": "EFL201",
+          "effect": "FAIL",
+          "title": "Required modality unavailable",
+          "message": "The mission provides none of the required sensing modalities.",
+          "required": {
+            "modality_any_of": [
+              "thermal_ir"
+            ]
+          },
+          "capability": {
+            "modalities": [
+              "optical_multispectral"
+            ]
+          },
+          "source_ids": [
+            "esa-sentiwiki-s2-mission"
+          ]
+        },
+        {
+          "code": "EFL202",
+          "effect": "FAIL",
+          "title": "Required spectral band family unavailable",
+          "message": "The mission does not provide the thermal_ir band family.",
+          "required": {
+            "spectral_band_family": "thermal_ir"
+          },
+          "capability": {
+            "band_family": "thermal_ir",
+            "available": false
+          },
+          "source_ids": [
+            "esa-sentiwiki-s2-mission"
+          ]
+        },
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 4
+          },
+          "capability": {
+            "nominal_revisit_days": 5,
+            "scope": "equator_constellation_nominal"
+          },
+          "source_ids": [
+            "esa-sentiwiki-s2-mission"
+          ]
+        }
+      ]
+    },
+    {
+      "mission_id": "sentinel-1-iw",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL201",
+          "effect": "FAIL",
+          "title": "Required modality unavailable",
+          "message": "The mission does not provide the thermal_ir modality implied by the spatial.thermal_max_gsd_m requirement.",
+          "required": {
+            "modality": "thermal_ir",
+            "implied_by": "spatial.thermal_max_gsd_m"
+          },
+          "capability": {
+            "modalities": [
+              "sar_c_band"
+            ]
+          },
+          "source_ids": [
+            "esa-sentiwiki-s1-mission"
+          ]
+        },
+        {
+          "code": "EFL201",
+          "effect": "FAIL",
+          "title": "Required modality unavailable",
+          "message": "The mission provides none of the required sensing modalities.",
+          "required": {
+            "modality_any_of": [
+              "thermal_ir"
+            ]
+          },
+          "capability": {
+            "modalities": [
+              "sar_c_band"
+            ]
+          },
+          "source_ids": [
+            "esa-sentiwiki-s1-mission"
+          ]
+        },
+        {
+          "code": "EFL202",
+          "effect": "FAIL",
+          "title": "Required spectral band family unavailable",
+          "message": "The mission does not provide the thermal_ir band family.",
+          "required": {
+            "spectral_band_family": "thermal_ir"
+          },
+          "capability": {
+            "band_family": "thermal_ir",
+            "available": false
+          },
+          "source_ids": [
+            "esa-sentiwiki-s1-mission",
+            "esa-sentiwiki-s1-products"
+          ]
+        },
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 4
+          },
+          "capability": {
+            "nominal_revisit_days": 6,
+            "scope": "equator_two_satellite_nominal"
+          },
+          "source_ids": [
+            "esa-s1-facts-and-figures",
+            "esa-sentiwiki-s1-mission"
+          ]
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-8",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL302",
+          "effect": "FAIL",
+          "title": "Thermal GSD requirement unmet",
+          "message": "The mission's thermal infrared ground sample distance is coarser than the requirement.",
+          "required": {
+            "thermal_max_gsd_m": 60
+          },
+          "capability": {
+            "band_family": "thermal_ir",
+            "resolution_m": 100
+          },
+          "source_ids": [
+            "usgs-landsat-8"
+          ]
+        },
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 4
+          },
+          "capability": {
+            "nominal_revisit_days": 16,
+            "scope": "nominal_repeat_cycle"
+          },
+          "source_ids": [
+            "usgs-landsat-8",
+            "usgs-landsat-acquisition-schedules"
+          ]
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-9",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL302",
+          "effect": "FAIL",
+          "title": "Thermal GSD requirement unmet",
+          "message": "The mission's thermal infrared ground sample distance is coarser than the requirement.",
+          "required": {
+            "thermal_max_gsd_m": 60
+          },
+          "capability": {
+            "band_family": "thermal_ir",
+            "resolution_m": 100
+          },
+          "source_ids": [
+            "usgs-landsat-9"
+          ]
+        },
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 4
+          },
+          "capability": {
+            "nominal_revisit_days": 16,
+            "scope": "nominal_repeat_cycle"
+          },
+          "source_ids": [
+            "usgs-landsat-9",
+            "usgs-landsat-acquisition-schedules"
+          ]
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-8-9",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL302",
+          "effect": "FAIL",
+          "title": "Thermal GSD requirement unmet",
+          "message": "The mission's thermal infrared ground sample distance is coarser than the requirement.",
+          "required": {
+            "thermal_max_gsd_m": 60
+          },
+          "capability": {
+            "band_family": "thermal_ir",
+            "resolution_m": 100
+          },
+          "source_ids": [
+            "usgs-landsat-8",
+            "usgs-landsat-9"
+          ]
+        },
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 4
+          },
+          "capability": {
+            "nominal_revisit_days": 8,
+            "scope": "nominal_combined_offset"
+          },
+          "source_ids": [
+            "usgs-landsat-acquisition-schedules",
+            "usgs-landsat-acquisition-plan"
+          ]
+        }
+      ]
+    }
+  ]
+}

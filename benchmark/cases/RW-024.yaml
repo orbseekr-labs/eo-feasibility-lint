@@ -1,0 +1,11 @@
+# RW-024 — authored by Agent 2 (blind expected-label author), 2026-09-28.
+# Input mapped from requirements.yaml per LABELING_NOTES.md policy; not tuned to any verdict.
+schema_version: '0.1'
+name: rw-024
+requirements:
+  spatial:
+    thermal_max_gsd_m: 150
+  illumination:
+    must_support_night: true
+  output:
+    kind: derived_product

@@ -1,0 +1,13 @@
+# RW-005 — authored by Agent 2 (blind expected-label author), 2026-09-28.
+# Input mapped from requirements.yaml per LABELING_NOTES.md policy; not tuned to any verdict.
+schema_version: '0.1'
+name: rw-005
+candidate_missions:
+- sentinel-2
+- landsat-8
+- landsat-9
+requirements:
+  spatial:
+    optical_max_gsd_m: 30
+  output:
+    kind: derived_product

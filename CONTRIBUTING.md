@@ -75,7 +75,7 @@ ruff check .
 pytest
 ```
 
-Tests are organised per rule, plus `tests/test_mandatory_cases.py` (the 16 specification cases, in specification order), `tests/test_catalog.py` (integrity) and `tests/test_determinism.py`.
+Tests are organised per rule, plus `tests/test_mandatory_cases.py` (the 16 specification cases, in specification order), `tests/test_catalog.py` (integrity), `tests/test_determinism.py` and `tests/test_benchmark.py` (recorded real-world benchmark outputs; an intended behaviour change must update `benchmark/actual/` and `benchmark/real-world-cases.yaml` together).
 
 Add a test alongside any behaviour change. Priority order when they conflict:
 

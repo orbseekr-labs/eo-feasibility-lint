@@ -1,0 +1,15 @@
+# RW-030 — authored by Agent 2 (blind expected-label author), 2026-09-28.
+# Input mapped from requirements.yaml per LABELING_NOTES.md policy; not tuned to any verdict.
+schema_version: '0.1'
+name: rw-030
+requirements:
+  modality_any_of:
+  - thermal_ir
+  spectral_bands_all_of:
+  - thermal_ir
+  spatial:
+    thermal_max_gsd_m: 60
+  temporal:
+    max_nominal_revisit_days: 4
+  output:
+    kind: instrument_measurement

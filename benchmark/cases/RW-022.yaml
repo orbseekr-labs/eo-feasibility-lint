@@ -1,0 +1,21 @@
+# RW-022 — authored by Agent 2 (blind expected-label author), 2026-09-28.
+# Input mapped from requirements.yaml per LABELING_NOTES.md policy; not tuned to any verdict.
+schema_version: '0.1'
+name: rw-022
+requirements:
+  modality_any_of:
+  - thermal_ir
+  spectral_bands_all_of:
+  - visible
+  - nir
+  - swir
+  - thermal_ir
+  spatial:
+    optical_max_gsd_m: 50
+    thermal_max_gsd_m: 50
+  temporal:
+    max_nominal_revisit_days: 3
+  illumination:
+    must_support_night: true
+  output:
+    kind: derived_product

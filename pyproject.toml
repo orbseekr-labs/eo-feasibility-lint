@@ -41,7 +41,7 @@ eo-feasibility-lint = "eo_feasibility_lint.cli:main"
 packages = ["src/eo_feasibility_lint"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src", "tests", "schemas", "examples", "README.md", "SPECIFICATION.md", "LICENSE"]
+include = ["src", "tests", "schemas", "examples", "benchmark", "README.md", "SPECIFICATION.md", "LICENSE"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

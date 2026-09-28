@@ -1,0 +1,62 @@
+{
+  "schema_version": "0.1",
+  "ruleset_version": "0.1.0",
+  "catalog_version": "2026-08-15.1",
+  "requirement": {
+    "name": "rw-005"
+  },
+  "portfolio_verdict": "CONDITIONAL",
+  "mission_results": [
+    {
+      "mission_id": "sentinel-2",
+      "verdict": "CONDITIONAL",
+      "findings": [
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-8",
+      "verdict": "CONDITIONAL",
+      "findings": [
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-9",
+      "verdict": "CONDITIONAL",
+      "findings": [
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    }
+  ]
+}

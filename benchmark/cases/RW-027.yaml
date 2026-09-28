@@ -1,0 +1,15 @@
+# RW-027 — authored by Agent 2 (blind expected-label author), 2026-09-28.
+# Input mapped from requirements.yaml per LABELING_NOTES.md policy; not tuned to any verdict.
+schema_version: '0.1'
+name: rw-027
+requirements:
+  spectral_bands_all_of:
+  - visible
+  - nir
+  - swir
+  spatial:
+    optical_max_gsd_m: 30
+  temporal:
+    max_nominal_revisit_days: 12.5
+  output:
+    kind: instrument_measurement

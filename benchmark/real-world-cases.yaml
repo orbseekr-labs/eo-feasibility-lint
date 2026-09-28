@@ -1,0 +1,1682 @@
+# Real-world requirement benchmark for eo-feasibility-lint (blind, 2026-09-28).
+#
+# Methodology and results: docs/real-world-validation.md
+# Cases were extracted (Agent 1) and labelled (Agent 2) without running the tool;
+# labels were hash-frozen before the tool was run (Agent 3).
+# source_text_summary and explicit_requirements are short paraphrases, not quotations.
+# `actual` was produced by eo-feasibility-lint 0.1.0 with catalog 2026-08-15.1 and is
+# re-checked offline by tests/test_benchmark.py. This is NOT an accuracy estimate.
+benchmark_version: 2026-09-28.1
+tool_version: 0.1.0
+catalog_version: 2026-08-15.1
+cases:
+- id: RW-001
+  source_url: https://github.com/AS-youKnow/urban-heat-stress
+  source_commit: 72ef427ca4ff2614cf21597548761857c9a87b70
+  source_publisher: GitHub user AS-youKnow
+  source_title: AI/ML Urban Heat Stress Hotspot Prediction System (README.md)
+  accessed: '2026-09-28'
+  source_text_summary: Urban heat-hotspot ML pipeline for Indian cities; pulls Landsat 8 Collection 2
+    L2 imagery via GEE, derives LST from the surface-temperature band plus NDVI/NDBI, samples on a 100
+    m grid, March-June.
+  explicit_requirements:
+  - dimension: mission
+    value: Landsat 8 Collection 2 Level-2
+    framing: used-as-input
+  - dimension: modality
+    value: thermal infrared (LST from Landsat ST_B10 surface-temperature band)
+    framing: used-as-input
+  - dimension: spectral
+    value: Landsat 8 B4 (red), B5 (NIR) for NDVI
+    framing: used-as-input
+  - dimension: spectral
+    value: Landsat 8 B6 (SWIR) and B5 for NDBI
+    framing: used-as-input
+  testable: false
+  not_testable_reason: 'All extracted requirements are framed used-as-input (dataset the author used),
+    not a stated need; policy: used-as-input is never mapped as a requirement. Landsat 8 thermal/B4/B5/B6
+    describe inputs; 100 m is an analysis grid.'
+  input: null
+  expected: null
+  actual: null
+  match: null
+- id: RW-002
+  source_url: https://github.com/nlebovits/gee-urban-clim
+  source_commit: c845a45ca517d1a4ea5ee186cff9751e5a03f6f8
+  source_publisher: GitHub user nlebovits
+  source_title: gee-urban-clim (README.md titled "flood-ml"; SETUP.md)
+  accessed: '2026-09-28'
+  source_text_summary: One-line README describing a Google Earth Engine flood-hazard mapping pipeline
+    built on Sentinel-1; SETUP.md covers only credentials and the EM-DAT database.
+  explicit_requirements:
+  - dimension: mission
+    value: Sentinel-1
+    framing: used-as-input
+  - dimension: modality
+    value: SAR (stated only via the mission name Sentinel-1)
+    framing: used-as-input
+  testable: false
+  not_testable_reason: 'All extracted requirements are framed used-as-input (dataset the author used),
+    not a stated need; policy: used-as-input is never mapped as a requirement. Only a mission name (Sentinel-1);
+    no capability statement.'
+  input: null
+  expected: null
+  actual: null
+  match: null
+- id: RW-003
+  source_url: https://github.com/FaranIdo/stpred
+  source_commit: c31b7b8ea2f0e1e93a5fe8da00ca2510a6b07ff9
+  source_publisher: GitHub user FaranIdo (Faran, Netanyahu, Kizel, Shoshany; IGARSS 2025)
+  source_title: Spatio-Temporal Transformers for Long Term NDVI Prediction (README.md)
+  accessed: '2026-09-28'
+  source_text_summary: Transformer model forecasting NDVI from historical Landsat NDVI time series (1984
+    onward) stored as a NumPy cube with NDVI, month, year, lat, lon features.
+  explicit_requirements:
+  - dimension: mission
+    value: Landsat (NDVI time series, 1984 onward)
+    framing: used-as-input
+  testable: false
+  not_testable_reason: 'All extracted requirements are framed used-as-input (dataset the author used),
+    not a stated need; policy: used-as-input is never mapped as a requirement. Landsat NDVI dataset provenance
+    only.'
+  input: null
+  expected: null
+  actual: null
+  match: null
+- id: RW-004
+  source_url: https://github.com/Ojas-Rohatgi/Deforestation-Detection
+  source_commit: f7f474fb869267c6414c29ab92a9a6b2671ddb7c
+  source_publisher: GitHub user Ojas-Rohatgi
+  source_title: Deforestation Detection using Satellite Imagery (README.md)
+  accessed: '2026-09-28'
+  source_text_summary: U-Net deforestation segmentation fetching Landsat-8 (30 m) or optionally Sentinel-2
+    (10 m) imagery and NDVI via GEE; goal framed as near-real-time monitoring; roadmap lists SAR support.
+  explicit_requirements:
+  - dimension: mission
+    value: Landsat-8 (primary), Sentinel-2 (optional)
+    framing: used-as-input
+  - dimension: resolution_m
+    value: 30 (Landsat-8) / 10 (Sentinel-2) as stated resolutions of the inputs
+    framing: used-as-input
+  - dimension: spectral
+    value: RGB (visible) or NDVI composite as model input
+    framing: used-as-input
+  - dimension: modality
+    value: SAR (future roadmap item, unchecked)
+    framing: desired
+  testable: true
+  mapping_rationale: Used-as-input items (Landsat-8 30 m, S2 10 m, RGB/NDVI) not mapped. Desired roadmap
+    'Support for multispectral and SAR imagery' mapped as modality_any_of [sar_c_band] because the case
+    has no required items.
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Roadmap wish is weak evidence; 'SAR' generic, tool only models C-band.
+  - Roadmap phrase says 'multispectral and SAR'; mapped only the new SAR part as the desired item. Mapping
+    as any_of [optical_multispectral, sar_c_band] would make every mission CONDITIONAL - same portfolio
+    verdict.
+  - output.kind=model_inference chosen by author (deforestation segmentation); not extracted by Agent
+    1.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-004.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: CONDITIONAL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL802
+    confidence: medium
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: CONDITIONAL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL802
+    raw_json: benchmark/actual/RW-004.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-005
+  source_url: https://github.com/Yingjie4Science/SNAPP
+  source_commit: 56edc73cd5bb6888844803d7bdfe11a7fb901f96
+  source_publisher: GitHub user Yingjie4Science
+  source_title: SNAPP (README.md; urban greenness / mental-health data workspace)
+  accessed: '2026-09-28'
+  source_text_summary: Greenness-health model using 30 m Landsat summer p90 NDVI (active) with Copernicus
+    300 m / Sentinel-2 10 m alternatives; README warns 300 m is too coarse and recommends 10-30 m for
+    real studies.
+  explicit_requirements:
+  - dimension: mission
+    value: Landsat (active NDVI source)
+    framing: used-as-input
+  - dimension: resolution_m
+    value: <= 30 (prefer 10 m Sentinel-2 or 30 m Landsat; 300 m judged too coarse)
+    framing: desired
+  - dimension: mission
+    value: Sentinel-2 or Landsat (preferred for a real study)
+    framing: desired
+  testable: true
+  mapping_rationale: Desired '<= 30 m' mapped because the case has no required items. Desired mission
+    list 'Sentinel-2 or Landsat' mapped to candidate_missions (alternatives semantics fit §2.6). 'Landsat'
+    mapped to landsat-8 and landsat-9 (the operating OLI missions in the catalog); landsat-8-9 omitted
+    as it is a cadence profile and no temporal requirement exists.
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Optical modality inferred from NDVI (an optical index) rather than stated.
+  - Generic 'Landsat' -> landsat-8/landsat-9 is an interpretation.
+  - output.kind=derived_product chosen by author.
+  candidate_missions:
+  - sentinel-2
+  - landsat-8
+  - landsat-9
+  input: benchmark/cases/RW-005.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+    finding_codes:
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+    finding_codes:
+    - EFL801
+    raw_json: benchmark/actual/RW-005.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-006
+  source_url: https://github.com/bangboomben/ha-nasa-firms
+  source_commit: 1e4d068266a1eab42fb1966ab55e31c52395ede6
+  source_publisher: GitHub user bangboomben
+  source_title: NASA FIRMS Wildfire Monitor for Home Assistant (README.md)
+  accessed: '2026-09-28'
+  source_text_summary: Home Assistant integration consuming NASA FIRMS VIIRS+MODIS active-fire detections;
+    README documents limitations (thermal anomalies, 375 m pixels, ~2 passes/day per VIIRS satellite,
+    ~3 h latency, day/night confidence behaviour).
+  explicit_requirements:
+  - dimension: mission
+    value: VIIRS and MODIS (via NASA FIRMS)
+    framing: used-as-input
+  - dimension: modality
+    value: thermal anomaly / active-fire detection
+    framing: used-as-input
+  - dimension: resolution_m
+    value: 375 (VIIRS pixel, stated as a property of the input)
+    framing: used-as-input
+  testable: false
+  not_testable_reason: 'All extracted requirements are framed used-as-input (dataset the author used),
+    not a stated need; policy: used-as-input is never mapped as a requirement. VIIRS/MODIS are not in
+    the v0.1 catalog; 375 m is a property of the consumed product.'
+  input: null
+  expected: null
+  actual: null
+  match: null
+- id: RW-007
+  source_url: https://github.com/SylviaChebetEMTH/Crop-Analysis
+  source_commit: bb0924a79c061263fbee3b53e0e0c90e92c9886f
+  source_publisher: GitHub user SylviaChebetEMTH
+  source_title: Crop Analysis Platform (README.md)
+  accessed: '2026-09-28'
+  source_text_summary: React/Flask web app computing NDVI, EVI, NDWI, MNDWI, SAVI, NDMI, CI and LAI for
+    crop monitoring from Sentinel-2 surface-reflectance (S2_SR_HARMONIZED) via Google Earth Engine.
+  explicit_requirements:
+  - dimension: mission
+    value: Sentinel-2 L2A (COPERNICUS/S2_SR_HARMONIZED)
+    framing: used-as-input
+  testable: false
+  not_testable_reason: 'All extracted requirements are framed used-as-input (dataset the author used),
+    not a stated need; policy: used-as-input is never mapped as a requirement. Sentinel-2 L2A dataset;
+    no bands named.'
+  input: null
+  expected: null
+  actual: null
+  match: null
+- id: RW-008
+  source_url: https://esamultimedia.esa.int/docs/GMES/Sentinel-2_MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (ESA Sentinel-2 Team)
+  source_title: GMES Sentinel-2 Mission Requirements Document, EOP-SM/1163/MR-dr, issue 2 rev 1 (8/03/2010)
+    - mission requirements MR-S2-04/10/20 and Tab. 3/6
+  accessed: '2026-09-28'
+  source_text_summary: Mission-level requirements for Sentinel-2 derived from GMES service needs - geometric
+    revisit, swath width, per-band spatial resolution (10/20/60 m) and a 13-band set including red-edge
+    bands.
+  explicit_requirements:
+  - dimension: revisit_days
+    value: <= 10 (threshold); <= 5 (goal)
+    framing: required
+  - dimension: swath_km
+    value: 200
+    framing: required
+  - dimension: resolution_m
+    value: 10 (B2,B3,B4,B8); 20 (B5,B6,B7,B8a,B11,B12); 60 (B1,B9,B10)
+    framing: required
+  - dimension: spectral
+    value: red-edge bands (705 nm, 740 nm) within the required Tab. 3 band set; visible, NIR, SWIR
+    framing: required
+  testable: true
+  mapping_rationale: 'Mission-level required items: revisit threshold 10 d (goal 5 d is desired, not mapped);
+    swath 200 km; red-edge + visible/NIR/SWIR band set. Per-band resolution (10/20/60 m) cannot be expressed
+    per family (single optical_max_gsd_m); mapped 20 m = the stated requirement for red-edge/SWIR, which
+    is the only single value that does not invent a constraint the source does not state (10 m would wrongly
+    require red-edge at 10 m).'
+  mapping_fidelity: partial
+  mapping_ambiguities:
+  - 'Per-band resolution table (10/20/60 m) collapsed to a single 20 m threshold: the stricter 10 m for
+    B2/B3/B4/B8 is NOT checked (lossy).'
+  - 60 m bands (B1/B9/B10 = coastal_aerosol/water_vapor/cirrus families) not added because Agent 1 extracted
+    only red-edge + visible/NIR/SWIR.
+  - This is a mission-design requirement document, not an end-user application.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-008.yaml
+  expected:
+    portfolio_verdict: PASS
+    per_mission:
+      sentinel-2: PASS
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL202
+    - EFL301
+    - EFL401
+    - EFL402
+    - EFL701
+    confidence: high
+  actual:
+    exit_code: 0
+    portfolio_verdict: PASS
+    per_mission:
+      sentinel-2: PASS
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL202
+    - EFL301
+    - EFL401
+    - EFL402
+    - EFL701
+    raw_json: benchmark/actual/RW-008.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-009
+  source_url: https://esamultimedia.esa.int/docs/GMES/Sentinel-2_MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (ESA Sentinel-2 Team)
+  source_title: GMES Sentinel-2 MRD, Tab. 2 "Summary of the product requirements derived from the main
+    GSEs and Geoland" - GSE RISK-EOS Rapid Mapping (flood monitoring), NRT rows
+  accessed: '2026-09-28'
+  source_text_summary: User product requirement for near-real-time flood extent and impact rapid mapping
+    in Europe at better than 30 m, updated within 12 hours.
+  explicit_requirements:
+  - dimension: resolution_m
+    value: < 30
+    framing: required
+  - dimension: revisit_days
+    value: within 12 h (stated as update frequency; = 0.5 day)
+    framing: required
+  testable: true
+  mapping_rationale: 'Required resolution ''< 30m'' mapped to optical_max_gsd_m=30 (upper bound of stated
+    range = maximum acceptable). '
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Update frequency ('within 12h') is a product/service cadence in Tab. 2, not clearly acquisition revisit
+    -> NOT mapped to temporal.max_nominal_revisit_days (task policy).
+  - Row is sensor-agnostic; resolution mapped to optical_max_gsd_m because the table sits in the Sentinel-2
+    (optical) MRD. A SAR reading (sar_max_resolution_m) would change Sentinel-1 results.
+  - output.kind=derived_product (a mapped product) chosen by author; instrument_measurement would turn
+    CONDITIONAL into PASS for the passing missions.
+  - Strict '< 30' mapped to inclusive max 30 (schema has no strict bound); a strict reading makes Landsat
+    EFL301 FAIL per mission, portfolio unchanged (S2 10 m).
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-009.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL801
+    confidence: medium
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL801
+    raw_json: benchmark/actual/RW-009.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-010
+  source_url: https://esamultimedia.esa.int/docs/GMES/Sentinel-2_MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (ESA Sentinel-2 Team)
+  source_title: GMES Sentinel-2 MRD, Tab. 2 - GSE RISK-EOS Rapid Mapping (flood monitoring), non-NRT rows
+  accessed: '2026-09-28'
+  source_text_summary: Non-NRT flood extent, maximum extent, damage and duration mapping in Europe at
+    better than 10 m with daily update.
+  explicit_requirements:
+  - dimension: resolution_m
+    value: < 10
+    framing: required
+  - dimension: revisit_days
+    value: 1 (daily update)
+    framing: required
+  testable: true
+  mapping_rationale: 'Required resolution ''< 10m'' mapped to optical_max_gsd_m=10 (upper bound of stated
+    range = maximum acceptable). '
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Update frequency ('daily') is a product/service cadence in Tab. 2, not clearly acquisition revisit
+    -> NOT mapped to temporal.max_nominal_revisit_days (task policy).
+  - Row is sensor-agnostic; resolution mapped to optical_max_gsd_m because the table sits in the Sentinel-2
+    (optical) MRD. A SAR reading (sar_max_resolution_m) would change Sentinel-1 results.
+  - output.kind=derived_product (a mapped product) chosen by author; instrument_measurement would turn
+    CONDITIONAL into PASS for the passing missions.
+  - Strict '< 10' mapped to inclusive max 10. Under a strict reading S2 (exactly 10 m) would also fail
+    and the portfolio would become FAIL - hence low confidence.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-010.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL301
+    - EFL801
+    confidence: low
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL301
+    - EFL801
+    raw_json: benchmark/actual/RW-010.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-011
+  source_url: https://esamultimedia.esa.int/docs/GMES/Sentinel-2_MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (ESA Sentinel-2 Team)
+  source_title: GMES Sentinel-2 MRD, Tab. 2 - GSE RISK-EOS Rapid Mapping (large fires)
+  accessed: '2026-09-28'
+  source_text_summary: Near-real-time fire extent rapid mapping for southern Europe (Mediterranean) at
+    5-10 m, delivered within one day.
+  explicit_requirements:
+  - dimension: resolution_m
+    value: 5-10
+    framing: required
+  - dimension: revisit_days
+    value: within 1 day (NRT fire extent)
+    framing: required
+  testable: true
+  mapping_rationale: 'Required resolution ''5-10 m'' mapped to optical_max_gsd_m=10 (upper bound of stated
+    range = maximum acceptable). '
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Update frequency ('within 1 day (NRT delivery)') is a product/service cadence in Tab. 2, not clearly
+    acquisition revisit -> NOT mapped to temporal.max_nominal_revisit_days (task policy).
+  - Row is sensor-agnostic; resolution mapped to optical_max_gsd_m because the table sits in the Sentinel-2
+    (optical) MRD. A SAR reading (sar_max_resolution_m) would change Sentinel-1 results.
+  - output.kind=derived_product (a mapped product) chosen by author; instrument_measurement would turn
+    CONDITIONAL into PASS for the passing missions.
+  - Range 5-10 m mapped to its upper bound 10 m; reading it as 'needs 5 m' would FAIL every mission.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-011.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL301
+    - EFL801
+    confidence: medium
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL301
+    - EFL801
+    raw_json: benchmark/actual/RW-011.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-012
+  source_url: https://esamultimedia.esa.int/docs/GMES/Sentinel-2_MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (ESA Sentinel-2 Team)
+  source_title: GMES Sentinel-2 MRD, Tab. 2 - GSE Land, Water abstraction pressure by irrigation
+  accessed: '2026-09-28'
+  source_text_summary: Land cover/land use map for irrigation water-abstraction pressure over Europe at
+    100-300 m updated at least every 10 days.
+  explicit_requirements:
+  - dimension: resolution_m
+    value: 100-300
+    framing: required
+  - dimension: revisit_days
+    value: <= 10
+    framing: required
+  testable: true
+  mapping_rationale: 'Required resolution ''100-300 m'' mapped to optical_max_gsd_m=300 (upper bound of
+    stated range = maximum acceptable). '
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Update frequency ('<= 10 days') is a product/service cadence in Tab. 2, not clearly acquisition revisit
+    -> NOT mapped to temporal.max_nominal_revisit_days (task policy).
+  - Row is sensor-agnostic; resolution mapped to optical_max_gsd_m because the table sits in the Sentinel-2
+    (optical) MRD. A SAR reading (sar_max_resolution_m) would change Sentinel-1 results.
+  - output.kind=derived_product (a mapped product) chosen by author; instrument_measurement would turn
+    CONDITIONAL into PASS for the passing missions.
+  - Range 100-300 m mapped to upper bound; lower bound 100 m gives the same verdicts.
+  - '''<= 10 days'' could be read as observation revisit; if mapped, S2 (5 d) and L8+9 (8 d) pass, L8/L9
+    16 d FAIL - portfolio unchanged.'
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-012.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL801
+    raw_json: benchmark/actual/RW-012.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-013
+  source_url: https://esamultimedia.esa.int/docs/GMES/Sentinel-2_MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (ESA Sentinel-2 Team)
+  source_title: GMES Sentinel-2 MRD, Tab. 2 - GSE Forest Monitoring, National greenhouse gas reporting
+  accessed: '2026-09-28'
+  source_text_summary: Land cover and forest map at 10 m for national GHG reporting across Europe and
+    parts of Asia, Africa and South America, updated every 1-5 years.
+  explicit_requirements:
+  - dimension: resolution_m
+    value: 10
+    framing: required
+  - dimension: revisit_days
+    value: 365-1825 (every 1-5 years update)
+    framing: required
+  testable: true
+  mapping_rationale: 'Required resolution ''10 m'' mapped to optical_max_gsd_m=10 (upper bound of stated
+    range = maximum acceptable). '
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Update frequency ('every 1-5 years') is a product/service cadence in Tab. 2, not clearly acquisition
+    revisit -> NOT mapped to temporal.max_nominal_revisit_days (task policy).
+  - Row is sensor-agnostic; resolution mapped to optical_max_gsd_m because the table sits in the Sentinel-2
+    (optical) MRD. A SAR reading (sar_max_resolution_m) would change Sentinel-1 results.
+  - output.kind=derived_product (a mapped product) chosen by author; instrument_measurement would turn
+    CONDITIONAL into PASS for the passing missions.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-013.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL301
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL301
+    - EFL801
+    raw_json: benchmark/actual/RW-013.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-014
+  source_url: https://esamultimedia.esa.int/docs/GMES/Sentinel-2_MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (ESA Sentinel-2 Team)
+  source_title: GMES Sentinel-2 MRD, Tab. 2 - GSE GMFS Regional applications vegetation monitoring (continental/regional
+    scale)
+  accessed: '2026-09-28'
+  source_text_summary: Continental and regional vegetation-state land cover mapping over Africa at 250-1000
+    m every 10 days (food-security monitoring service).
+  explicit_requirements:
+  - dimension: resolution_m
+    value: 250-1000
+    framing: required
+  - dimension: revisit_days
+    value: 10
+    framing: required
+  testable: true
+  mapping_rationale: 'Required resolution ''250-1000 m'' mapped to optical_max_gsd_m=1000 (upper bound
+    of stated range = maximum acceptable). '
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Update frequency ('every 10 days') is a product/service cadence in Tab. 2, not clearly acquisition
+    revisit -> NOT mapped to temporal.max_nominal_revisit_days (task policy).
+  - Row is sensor-agnostic; resolution mapped to optical_max_gsd_m because the table sits in the Sentinel-2
+    (optical) MRD. A SAR reading (sar_max_resolution_m) would change Sentinel-1 results.
+  - output.kind=derived_product (a mapped product) chosen by author; instrument_measurement would turn
+    CONDITIONAL into PASS for the passing missions.
+  - '''every 10 days'' if mapped as revisit: portfolio unchanged (S2 5 d passes).'
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-014.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL801
+    raw_json: benchmark/actual/RW-014.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-015
+  source_url: https://esamultimedia.esa.int/docs/GMES/Sentinel-2_MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (ESA Sentinel-2 Team)
+  source_title: GMES Sentinel-2 MRD, Tab. 2 - GSE RESPOND, Crisis/damage mapping (Plain Flood Monitoring)
+  accessed: '2026-09-28'
+  source_text_summary: Humanitarian crisis/damage mapping for plain flood monitoring, global, at 10-30
+    m with daily update.
+  explicit_requirements:
+  - dimension: resolution_m
+    value: 10-30
+    framing: required
+  - dimension: revisit_days
+    value: 1 (daily)
+    framing: required
+  testable: true
+  mapping_rationale: 'Required resolution ''10-30m'' mapped to optical_max_gsd_m=30 (upper bound of stated
+    range = maximum acceptable). '
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Update frequency ('Daily') is a product/service cadence in Tab. 2, not clearly acquisition revisit
+    -> NOT mapped to temporal.max_nominal_revisit_days (task policy).
+  - Row is sensor-agnostic; resolution mapped to optical_max_gsd_m because the table sits in the Sentinel-2
+    (optical) MRD. A SAR reading (sar_max_resolution_m) would change Sentinel-1 results.
+  - output.kind=derived_product (a mapped product) chosen by author; instrument_measurement would turn
+    CONDITIONAL into PASS for the passing missions.
+  - Range 10-30 m mapped to upper bound 30; lower bound 10 would FAIL Landsat per mission, portfolio unchanged.
+  - If 'Daily' were mapped as 1-day revisit, every mission would FAIL (EFL401) - the key reason for the
+    no-mapping policy.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-015.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL801
+    raw_json: benchmark/actual/RW-015.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-016
+  source_url: https://esamultimedia.esa.int/docs/GMES/GMES_SENT1_MRD_1-4_approved_version.pdf
+  source_commit: null
+  source_publisher: European Space Agency (E. Attema, ESTEC)
+  source_title: GMES Sentinel-1 Mission Requirements Document, ES-RS-ESA-SY-0007 issue 1 rev 4 (11/07/2005)
+    - Table 3 mission requirements
+  accessed: '2026-09-28'
+  source_text_summary: C-band SAR mission requirements - centre frequency, interferometry support with
+    <=14-day exact repeat, ~240 km main-mode swath, dual polarisation VV+VH.
+  explicit_requirements:
+  - dimension: modality
+    value: SAR, C-band (5250-5570 MHz)
+    framing: required
+  - dimension: revisit_days
+    value: <= 14 (exact repeat, for interferometry)
+    framing: required
+  - dimension: swath_km
+    value: 240 (main mode)
+    framing: required
+  testable: true
+  mapping_rationale: Required C-band SAR -> modality_any_of [sar_c_band]; '<= 14 days exact repeat' is
+    an acquisition repeat -> max_nominal_revisit_days 14; 240 km main-mode swath -> min_single_pass_swath_km
+    240. Polarisation not modelled.
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Requirement is exact-repeat for interferometry; tool compares nominal (constellation) revisit and
+    explicitly does not validate InSAR pairs (spec §3).
+  - Catalog revisit 6 d assumes a two-satellite constellation (S1C replaced S1B); single-satellite repeat
+    is 12 d, still <=14.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-016.yaml
+  expected:
+    portfolio_verdict: PASS
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: PASS
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL401
+    - EFL402
+    - EFL701
+    confidence: high
+  actual:
+    exit_code: 0
+    portfolio_verdict: PASS
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: PASS
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL401
+    - EFL402
+    - EFL701
+    raw_json: benchmark/actual/RW-016.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-017
+  source_url: https://esamultimedia.esa.int/docs/GMES/GMES_SENT1_MRD_1-4_approved_version.pdf
+  source_commit: null
+  source_publisher: European Space Agency (E. Attema, ESTEC)
+  source_title: GMES Sentinel-1 MRD - Sea ice & iceberg monitoring service (Table 2, sec. 3.2, MR 9)
+  accessed: '2026-09-28'
+  source_text_summary: Sea-ice and iceberg monitoring for marine operations needs daily service delivery
+    and 24-48 h revisit in Arctic/sea-ice zones, with daily full coverage poleward of 45 degrees.
+  explicit_requirements:
+  - dimension: modality
+    value: SAR (service listed in the SAR observation-requirement table of a C-band SAR MRD)
+    framing: required
+  - dimension: revisit_days
+    value: 1-2 (24-48 h)
+    framing: required
+  testable: true
+  mapping_rationale: '''24-48 hours revisit is required'' mapped to max_nominal_revisit_days 2 (upper
+    bound). SAR modality mapped as sar_c_band (C-band SAR MRD). 400 km swath note is desired-only and
+    the case has required items -> not mapped. Daily full coverage poleward of 45 deg is not modelled
+    (no AOI).'
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Tool revisit is equator-scoped; at Arctic latitudes S1 revisit is much shorter, so the FAIL is an
+    equator-nominal artifact for a polar use case.
+  - Service is sea-ice monitoring; output.kind=derived_product chosen by author.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-017.yaml
+  expected:
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL401
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 1
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL401
+    - EFL801
+    raw_json: benchmark/actual/RW-017.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-018
+  source_url: https://esamultimedia.esa.int/docs/GMES/GMES_SENT1_MRD_1-4_approved_version.pdf
+  source_commit: null
+  source_publisher: European Space Agency (E. Attema, ESTEC)
+  source_title: GMES Sentinel-1 MRD - Oil pollution monitoring (Marine & Coastal Environment; Table 2,
+    sec. 3.2)
+  accessed: '2026-09-28'
+  source_text_summary: SAR oil-spill monitoring service delivered daily; daily coverage of European coastal
+    waters and main transport zones is required.
+  explicit_requirements:
+  - dimension: modality
+    value: SAR
+    framing: required
+  - dimension: revisit_days
+    value: 1 (daily coverage of European coastal waters)
+    framing: required
+  testable: true
+  mapping_rationale: '''Daily coverage of European coastal waters ... required'' is an observation-coverage
+    statement (not the ''Daily'' service column) -> mapped to 1 d revisit. SAR modality mapped (framing
+    required per Agent 1).'
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Agent 1 notes the SAR quote is heritage-descriptive; dropping the modality keeps portfolio FAIL (EFL401
+    on all).
+  - Regional (European coastal) daily coverage vs equator-nominal revisit mismatch.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-018.yaml
+  expected:
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL401
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 1
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL401
+    - EFL801
+    raw_json: benchmark/actual/RW-018.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-019
+  source_url: https://earth.esa.int/eogateway/documents/20142/1564943/Sentinel-3-Mission-Requirements-Document-MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (M. R. Drinkwater, H. Rebhan)
+  source_title: GMES Sentinel-3 Mission Requirements Document, EOP-SMO/1151/MD-md issue 2 rev 0 (19 Feb
+    2007) - SST requirements by application (coastal/local) and Table 10
+  accessed: '2026-09-28'
+  source_text_summary: Sea-surface temperature requirements per application; coastal/local use needs <0.5
+    km resolution and <=1 day revisit at 0.5 K; mission SST sampling 1 km, revisit 1 d optimal / 2-3 d
+    minimum.
+  explicit_requirements:
+  - dimension: modality
+    value: thermal infrared (SST from thermal bands)
+    framing: required
+  - dimension: resolution_m
+    value: < 500 (coastal/local SST application row)
+    framing: required
+  - dimension: revisit_days
+    value: <= 1 (coastal/local)
+    framing: required
+  testable: true
+  mapping_rationale: Thermal SST -> modality_any_of [thermal_ir]; coastal '< 0.5' km -> thermal_max_gsd_m
+    500; '<= 1 d' application column mapped as revisit.
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Column semantics of '<= 1 d' in the SST requirement table (revisit vs product frequency) not verified;
+    if unmapped, Landsat becomes CONDITIONAL and portfolio CONDITIONAL - hence low confidence.
+  - '''< 0.5 km'' strict mapped to inclusive 500 m (no effect: Landsat 100 m).'
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-019.yaml
+  expected:
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL401
+    - EFL801
+    confidence: low
+  actual:
+    exit_code: 1
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL401
+    - EFL801
+    raw_json: benchmark/actual/RW-019.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-020
+  source_url: https://earth.esa.int/eogateway/documents/20142/1564943/Sentinel-3-Mission-Requirements-Document-MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (M. R. Drinkwater, H. Rebhan)
+  source_title: GMES Sentinel-3 MRD - Table 12 Sampling requirements for Land Vegetation dynamics
+  accessed: '2026-09-28'
+  source_text_summary: Land vegetation dynamics sampling at 500 m threshold / 250 m goal, global coverage
+    in 2 days, revisit 1 d optimal / 2-3 d minimum.
+  explicit_requirements:
+  - dimension: resolution_m
+    value: <= 500 (threshold); 250 (goal)
+    framing: required
+  - dimension: revisit_days
+    value: <= 3 (minimum); 1 (optimal)
+    framing: required
+  testable: true
+  mapping_rationale: 500 m threshold (250 m goal not mapped) -> optical_max_gsd_m 500 (land vegetation
+    colour); revisit minimum 3 d mapped (explicit 'Revisit time').
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Optical modality inferred from land-colour vegetation context; revisit FAILs every mission regardless.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-020.yaml
+  expected:
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL401
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 1
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL401
+    - EFL801
+    raw_json: benchmark/actual/RW-020.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-021
+  source_url: https://earth.esa.int/eogateway/documents/20142/1564943/Sentinel-3-Mission-Requirements-Document-MRD.pdf
+  source_commit: null
+  source_publisher: European Space Agency (M. R. Drinkwater, H. Rebhan)
+  source_title: GMES Sentinel-3 MRD - Active fire detection / Fire Radiative Power (sec. 4.11, Table 13)
+  accessed: '2026-09-28'
+  source_text_summary: Active fire detection and characterisation requires a non-saturating 3.7 micron
+    channel plus a non-saturating 11 or 12 micron thermal band; FRP product at 1 km, daily.
+  explicit_requirements:
+  - dimension: spectral
+    value: mid-wave IR 3.7 um (non-saturating)
+    framing: required
+  - dimension: spectral
+    value: thermal IR 11 or 12 um (non-saturating)
+    framing: required
+  - dimension: revisit_days
+    value: 1 (daily FRP product)
+    framing: required
+  testable: true
+  mapping_rationale: 11/12 um thermal band -> thermal_ir. The 3.7 um MWIR channel has no band family in
+    the v0.1 vocabulary (§5.2) and would be rejected at input validation (§7.4), so it is omitted. 'daily'
+    FRP product frequency not mapped (policy). 1 km is a TBD product grid, not mapped.
+  mapping_fidelity: partial
+  mapping_ambiguities:
+  - MWIR 3.7 um requirement dropped (unmodelled) - Landsat lacks it, so the real-world answer is likely
+    infeasible for all five missions; the tool cannot see this (coverage gap, not a tool bug).
+  - Non-saturation requirement not modelled.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-021.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL202
+    - EFL801
+    confidence: medium
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL202
+    - EFL801
+    raw_json: benchmark/actual/RW-021.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-022
+  source_url: https://esamultimedia.esa.int/docs/EarthObservation/Copernicus_LSTM_MRD_v3.0_Issued_20210514.pdf
+  source_commit: null
+  source_publisher: European Space Agency
+  source_title: Copernicus High Spatio-Temporal Resolution Land Surface Temperature Mission (LSTM) MRD,
+    ESA-EOPSM-HSTR-MRD-3276 v3.0 (14/05/2021) - field-scale evapotranspiration / agricultural water management
+  accessed: '2026-09-28'
+  source_text_summary: Field-scale ET for irrigation needs TIR at 30 m goal / 50 m threshold, LST daily
+    (goal) to 3 days (threshold), 8-12.5 um bands, plus collocated VNIR/SWIR at same resolution and swath;
+    TIR day and night.
+  explicit_requirements:
+  - dimension: modality
+    value: thermal infrared
+    framing: required
+  - dimension: resolution_m
+    value: thermal <= 50 (threshold); 30 (goal)
+    framing: required
+  - dimension: revisit_days
+    value: <= 3 (threshold); 1 (goal)
+    framing: required
+  - dimension: spectral
+    value: TIR 8-12.5 um (3 threshold / 5 goal bands) + visible, NIR, SWIR
+    framing: required
+  - dimension: night
+    value: TIR day and night radiance measurements (MR-OBS-020)
+    framing: required
+  testable: true
+  mapping_rationale: 'Required: TIR modality; TIR <=50 m threshold (30 m goal not mapped); LST revisit
+    <=3 d threshold; TIR + VIS/NIR/SWIR bands; VNIR/SWIR ''at least the same spatial resolution'' as TIR
+    -> optical_max_gsd_m 50; MR-OBS-020 day+night TIR -> must_support_night true.'
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Night requirement is mission-level (MR-OBS-020) while ET itself is daytime; kept because framed required.
+    Removing it does not change the portfolio (EFL302/EFL401 still FAIL).
+  - Night applies to all named families (§8.5 rule 1), including visible/nir/swir, although the source's
+    night requirement concerns TIR only - a schema limitation.
+  - 'Landsat reflected-optical night state (false vs occasional) is not first-party-determinable by me:
+    USGS says OLI SWIR can image at night by special request. So per-mission codes for visible/nir/swir
+    are EFL501 or EFL502; verdict unaffected.'
+  - Optical <=50 m derived from 'at least the same spatial resolution' - explicit but indirect.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-022.yaml
+  expected:
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL202
+    - EFL302
+    - EFL401
+    - EFL501
+    - EFL501|EFL502 x3 (visible,nir,swir)
+    - EFL502
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 1
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL202
+    - EFL302
+    - EFL401
+    - EFL501
+    - EFL502
+    - EFL801
+    raw_json: benchmark/actual/RW-022.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact_with_labeled_alternative
+    mismatch_class: null
+- id: RW-023
+  source_url: https://esamultimedia.esa.int/docs/EarthObservation/Copernicus_LSTM_MRD_v3.0_Issued_20210514.pdf
+  source_commit: null
+  source_publisher: European Space Agency
+  source_title: LSTM MRD - additional application "Urban heat island" (surface UHI)
+  accessed: '2026-09-28'
+  source_text_summary: Surface urban heat island estimation at district level needs ~50 m thermal resolution;
+    an overpass immediately before sunrise is stated as the best choice.
+  explicit_requirements:
+  - dimension: modality
+    value: thermal infrared (LST)
+    framing: required
+  - dimension: resolution_m
+    value: ~50 (thermal)
+    framing: required
+  - dimension: night
+    value: pre-sunrise (night-time) overpass
+    framing: desired
+  testable: true
+  mapping_rationale: Thermal LST ~50 m required -> thermal_max_gsd_m 50. Pre-sunrise overpass is desired
+    and the case has required items -> not mapped.
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - '''~50 m'' is approximate; Landsat 100 m is 2x, so the FAIL is robust.'
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-023.yaml
+  expected:
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL302
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 1
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL302
+    - EFL801
+    raw_json: benchmark/actual/RW-023.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-024
+  source_url: https://esamultimedia.esa.int/docs/EarthObservation/Copernicus_LSTM_MRD_v3.0_Issued_20210514.pdf
+  source_commit: null
+  source_publisher: European Space Agency
+  source_title: LSTM MRD - additional application "High temperature events" - biomass fire detection
+  accessed: '2026-09-28'
+  source_text_summary: Biomass fire detection requests day and night acquisitions, ground resolution below
+    150 m, unsaturated thermal data, with MIR (3-5 um) and SWIR useful.
+  explicit_requirements:
+  - dimension: resolution_m
+    value: < 150
+    framing: required
+  - dimension: night
+    value: day and night acquisitions
+    framing: required
+  - dimension: spectral
+    value: thermal IR plus MIR 3-5 um / SWIR
+    framing: desired
+  testable: true
+  mapping_rationale: '''<150 m'' ground resolution mapped to thermal_max_gsd_m 150 (LSTM is a TIR mission
+    and fire detection relies on unsaturated thermal data); night ''day and night acquisitions'' required
+    -> true. Spectral MIR/SWIR is desired and required items exist -> not mapped.'
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Resolution field choice (thermal vs optical) is inferred from mission context; optical reading changes
+    S2 (EFL501 still FAIL) but not the portfolio.
+  - Strict '< 150' mapped inclusive; no effect (100 m).
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-024.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL501
+    - EFL502
+    - EFL801
+    confidence: medium
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL501
+    - EFL502
+    - EFL801
+    raw_json: benchmark/actual/RW-024.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-025
+  source_url: https://esamultimedia.esa.int/docs/EarthObservation/Copernicus_LSTM_MRD_v3.0_Issued_20210514.pdf
+  source_commit: null
+  source_publisher: European Space Agency
+  source_title: LSTM MRD - additional application "High temperature events" - volcano activities
+  accessed: '2026-09-28'
+  source_text_summary: Volcano/lava-flow monitoring uses 3.5-3.9 um and 8-12 um channels and needs higher
+    dynamic range, day and night acquisitions, no saturation and <1 K accuracy.
+  explicit_requirements:
+  - dimension: spectral
+    value: MWIR 3.5-3.9 um and TIR 8-12 um
+    framing: used-as-input
+  - dimension: night
+    value: day and night acquisitions
+    framing: required
+  testable: true
+  mapping_rationale: Required 'day and night acquisitions' -> must_support_night true. The 3.5-3.9/8-12
+    um channels are framed used-as-input by Agent 1 -> not mapped (policy); dynamic range/accuracy not
+    modelled.
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Because the thermal channels are not mapped, Sentinel-1 is not excluded - a mapping artifact for a
+    volcano-thermal use case. If thermal_ir were mapped as a band, S1 would FAIL and the portfolio would
+    remain CONDITIONAL (Landsat EFL502).
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-025.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: CONDITIONAL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL501
+    - EFL502
+    - EFL801
+    confidence: medium
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: CONDITIONAL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL501
+    - EFL502
+    - EFL801
+    raw_json: benchmark/actual/RW-025.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-026
+  source_url: https://esamultimedia.esa.int/docs/EarthObservation/Copernicus_LSTM_MRD_v3.0_Issued_20210514.pdf
+  source_commit: null
+  source_publisher: European Space Agency
+  source_title: LSTM MRD - additional application "Permafrost and frost damage" (GlobPermafrost user requirements)
+  accessed: '2026-09-28'
+  source_text_summary: Permafrost and frost applications need LST over 248-280 K and require both day-time
+    and night-time acquisitions to average out diurnal fluctuations.
+  explicit_requirements:
+  - dimension: modality
+    value: thermal infrared (LST)
+    framing: required
+  - dimension: night
+    value: day-time and night-time acquisitions
+    framing: required
+  testable: true
+  mapping_rationale: LST -> thermal_ir modality; 'Day-time and night-time acquisitions are required' ->
+    must_support_night true.
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Landsat thermal night 'occasional' reflects special-request-only ascending acquisitions (USGS); spec
+    case 10 is consistent with EFL502.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-026.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL502
+    - EFL801
+    confidence: high
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL502
+    - EFL801
+    raw_json: benchmark/actual/RW-026.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-027
+  source_url: https://ris.utwente.nl/ws/files/228969030/Copernicus_CHIME_MRD_v2.1_Issued20190723.pdf
+  source_commit: null
+  source_publisher: European Space Agency (document hosted on University of Twente research repository)
+  source_title: Copernicus Hyperspectral Imaging Mission for the Environment (CHIME) MRD, ESA-EOPSM-CHIM-MRD-3216
+    v2.1 (23/07/2019) - MR-060/070/090/100
+  accessed: '2026-09-28'
+  source_text_summary: Hyperspectral mission requirements - contiguous 400-2500 nm coverage, <=10 nm sampling,
+    20 m goal / 30 m threshold SSD, equatorial coverage every 10 days goal / 12.5 days threshold.
+  explicit_requirements:
+  - dimension: spectral
+    value: contiguous visible-NIR-SWIR 400-2500 nm, SSI <= 10 nm (hyperspectral)
+    framing: required
+  - dimension: resolution_m
+    value: <= 30 (threshold); 20 (goal)
+    framing: required
+  - dimension: revisit_days
+    value: <= 12.5 (threshold); 10 (goal)
+    framing: required
+  testable: true
+  mapping_rationale: 30 m threshold (20 m goal not mapped); 12.5 d equatorial coverage threshold mapped
+    as revisit; 400-2500 nm mapped only as visible/nir/swir families.
+  mapping_fidelity: partial
+  mapping_ambiguities:
+  - Hyperspectral (contiguous 400-2500 nm, <=10 nm sampling) is out of scope for v0.1 (spec §3/README)
+    and cannot be expressed; only the coarse band families visible/nir/swir are mapped, so a multispectral
+    mission can PASS a requirement that no catalog mission actually meets (scope artifact, not a tool
+    defect).
+  - '''Geometrical coverage at the equator after 12.5 days'' treated as revisit (it is the mission''s
+    equator coverage/revisit requirement).'
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-027.yaml
+  expected:
+    portfolio_verdict: PASS
+    per_mission:
+      sentinel-2: PASS
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: PASS
+    finding_codes:
+    - EFL201
+    - EFL202
+    - EFL401
+    - EFL402
+    confidence: medium
+  actual:
+    exit_code: 0
+    portfolio_verdict: PASS
+    per_mission:
+      sentinel-2: PASS
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: PASS
+    finding_codes:
+    - EFL201
+    - EFL202
+    - EFL401
+    - EFL402
+    raw_json: benchmark/actual/RW-027.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-028
+  source_url: https://ris.utwente.nl/ws/files/228969030/Copernicus_CHIME_MRD_v2.1_Issued20190723.pdf
+  source_commit: null
+  source_publisher: European Space Agency (document hosted on University of Twente research repository)
+  source_title: CHIME MRD sec. 3.3 - Agriculture and Food Security, vegetation productivity and functioning
+  accessed: '2026-09-28'
+  source_text_summary: Hyperspectral crop productivity/stress monitoring should match Sentinel-2 resolution
+    (10-20 m), with up to 30 m acceptable; would benefit from high temporal and spectral resolution.
+  explicit_requirements:
+  - dimension: resolution_m
+    value: <= 30 acceptable; 10-20 preferred
+    framing: required
+  - dimension: spectral
+    value: 400-2500 nm high spectral resolution (visible, NIR, SWIR)
+    framing: required
+  testable: true
+  mapping_rationale: '''upper limit up to 30 m is acceptable'' -> optical_max_gsd_m 30 (10-20 m ''should''
+    is a preference, not mapped). 400-2500 nm -> visible/nir/swir only.'
+  mapping_fidelity: partial
+  mapping_ambiguities:
+  - Hyperspectral (contiguous 400-2500 nm, <=10 nm sampling) is out of scope for v0.1 (spec §3/README)
+    and cannot be expressed; only the coarse band families visible/nir/swir are mapped, so a multispectral
+    mission can PASS a requirement that no catalog mission actually meets (scope artifact, not a tool
+    defect).
+  - Crop productivity monitoring -> derived_product chosen by author.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-028.yaml
+  expected:
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL202
+    - EFL801
+    confidence: medium
+  actual:
+    exit_code: 0
+    portfolio_verdict: CONDITIONAL
+    per_mission:
+      sentinel-2: CONDITIONAL
+      sentinel-1-iw: FAIL
+      landsat-8: CONDITIONAL
+      landsat-9: CONDITIONAL
+      landsat-8-9: CONDITIONAL
+    finding_codes:
+    - EFL201
+    - EFL202
+    - EFL801
+    raw_json: benchmark/actual/RW-028.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-029
+  source_url: https://www.earthdata.nasa.gov/sites/default/files/2022-02/sbg_overview_Schimel.pdf
+  source_commit: null
+  source_publisher: NASA Earthdata (Surface Biology and Geology overview, D. Schimel) quoting the 2017
+    NASEM Decadal Survey
+  source_title: Surface Biology and Geology - Overview and SDS Implications (VSWIR imaging spectrometer
+    requirement)
+  accessed: '2026-09-28'
+  source_text_summary: Decadal Survey text quoted by NASA - a 30-45 m GSD, 10 nm, 400-2500 nm, high-SNR
+    imaging spectrometer is needed for land, inland aquatic, coastal and coral-reef ecosystems.
+  explicit_requirements:
+  - dimension: resolution_m
+    value: 30-45 (GSD)
+    framing: required
+  - dimension: spectral
+    value: hyperspectral 400-2500 nm at 10 nm (visible, NIR, SWIR)
+    framing: required
+  testable: true
+  mapping_rationale: 30-45 m GSD -> optical_max_gsd_m 45 (upper bound); 400-2500 nm -> visible/nir/swir.
+  mapping_fidelity: partial
+  mapping_ambiguities:
+  - Hyperspectral (contiguous 400-2500 nm, <=10 nm sampling) is out of scope for v0.1 (spec §3/README)
+    and cannot be expressed; only the coarse band families visible/nir/swir are mapped, so a multispectral
+    mission can PASS a requirement that no catalog mission actually meets (scope artifact, not a tool
+    defect).
+  - Decadal Survey values may be superseded (footnote on source).
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-029.yaml
+  expected:
+    portfolio_verdict: PASS
+    per_mission:
+      sentinel-2: PASS
+      sentinel-1-iw: FAIL
+      landsat-8: PASS
+      landsat-9: PASS
+      landsat-8-9: PASS
+    finding_codes:
+    - EFL201
+    - EFL202
+    confidence: medium
+  actual:
+    exit_code: 0
+    portfolio_verdict: PASS
+    per_mission:
+      sentinel-2: PASS
+      sentinel-1-iw: FAIL
+      landsat-8: PASS
+      landsat-9: PASS
+      landsat-8-9: PASS
+    finding_codes:
+    - EFL201
+    - EFL202
+    raw_json: benchmark/actual/RW-029.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null
+- id: RW-030
+  source_url: https://www.earthdata.nasa.gov/sites/default/files/2022-02/sbg_overview_Schimel.pdf
+  source_commit: null
+  source_publisher: NASA Earthdata (Surface Biology and Geology overview, D. Schimel) quoting the 2017
+    NASEM Decadal Survey
+  source_title: Surface Biology and Geology - Overview and SDS Implications (thermal IR requirement)
+  accessed: '2026-09-28'
+  source_text_summary: Decadal Survey text quoted by NASA - 30-60 m thermal observations in the 10.5-11.5
+    and 11.5-12.5 um regions are needed with a 2-4 day revisit.
+  explicit_requirements:
+  - dimension: modality
+    value: thermal infrared
+    framing: required
+  - dimension: resolution_m
+    value: thermal 30-60
+    framing: required
+  - dimension: revisit_days
+    value: 2-4
+    framing: required
+  - dimension: spectral
+    value: TIR 10.5-11.5 um and 11.5-12.5 um
+    framing: required
+  testable: true
+  mapping_rationale: TIR 30-60 m -> thermal_max_gsd_m 60; 2-4 d revisit -> 4; TIR bands -> thermal_ir
+    (two split-window regions collapse to one family).
+  mapping_fidelity: full
+  mapping_ambiguities:
+  - Specific 10.5-11.5/11.5-12.5 um windows not modelled (Landsat TIRS bands 10/11 do cover them).
+  - Decadal Survey values may be superseded.
+  candidate_missions: all five catalog missions (field omitted)
+  input: benchmark/cases/RW-030.yaml
+  expected:
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL202
+    - EFL302
+    - EFL401
+    confidence: high
+  actual:
+    exit_code: 1
+    portfolio_verdict: FAIL
+    per_mission:
+      sentinel-2: FAIL
+      sentinel-1-iw: FAIL
+      landsat-8: FAIL
+      landsat-9: FAIL
+      landsat-8-9: FAIL
+    finding_codes:
+    - EFL201
+    - EFL202
+    - EFL302
+    - EFL401
+    raw_json: benchmark/actual/RW-030.json
+  match:
+    portfolio_verdict: true
+    per_mission_verdicts: true
+    finding_codes: exact
+    mismatch_class: null

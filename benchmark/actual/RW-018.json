@@ -1,0 +1,260 @@
+{
+  "schema_version": "0.1",
+  "ruleset_version": "0.1.0",
+  "catalog_version": "2026-08-15.1",
+  "requirement": {
+    "name": "rw-018"
+  },
+  "portfolio_verdict": "FAIL",
+  "mission_results": [
+    {
+      "mission_id": "sentinel-2",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL201",
+          "effect": "FAIL",
+          "title": "Required modality unavailable",
+          "message": "The mission provides none of the required sensing modalities.",
+          "required": {
+            "modality_any_of": [
+              "sar_c_band"
+            ]
+          },
+          "capability": {
+            "modalities": [
+              "optical_multispectral"
+            ]
+          },
+          "source_ids": [
+            "esa-sentiwiki-s2-mission"
+          ]
+        },
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 1
+          },
+          "capability": {
+            "nominal_revisit_days": 5,
+            "scope": "equator_constellation_nominal"
+          },
+          "source_ids": [
+            "esa-sentiwiki-s2-mission"
+          ]
+        },
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    },
+    {
+      "mission_id": "sentinel-1-iw",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 1
+          },
+          "capability": {
+            "nominal_revisit_days": 6,
+            "scope": "equator_two_satellite_nominal"
+          },
+          "source_ids": [
+            "esa-s1-facts-and-figures",
+            "esa-sentiwiki-s1-mission"
+          ]
+        },
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-8",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL201",
+          "effect": "FAIL",
+          "title": "Required modality unavailable",
+          "message": "The mission provides none of the required sensing modalities.",
+          "required": {
+            "modality_any_of": [
+              "sar_c_band"
+            ]
+          },
+          "capability": {
+            "modalities": [
+              "optical_multispectral",
+              "thermal_ir"
+            ]
+          },
+          "source_ids": [
+            "usgs-landsat-8"
+          ]
+        },
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 1
+          },
+          "capability": {
+            "nominal_revisit_days": 16,
+            "scope": "nominal_repeat_cycle"
+          },
+          "source_ids": [
+            "usgs-landsat-8",
+            "usgs-landsat-acquisition-schedules"
+          ]
+        },
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-9",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL201",
+          "effect": "FAIL",
+          "title": "Required modality unavailable",
+          "message": "The mission provides none of the required sensing modalities.",
+          "required": {
+            "modality_any_of": [
+              "sar_c_band"
+            ]
+          },
+          "capability": {
+            "modalities": [
+              "optical_multispectral",
+              "thermal_ir"
+            ]
+          },
+          "source_ids": [
+            "usgs-landsat-9"
+          ]
+        },
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 1
+          },
+          "capability": {
+            "nominal_revisit_days": 16,
+            "scope": "nominal_repeat_cycle"
+          },
+          "source_ids": [
+            "usgs-landsat-9",
+            "usgs-landsat-acquisition-schedules"
+          ]
+        },
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-8-9",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL201",
+          "effect": "FAIL",
+          "title": "Required modality unavailable",
+          "message": "The mission provides none of the required sensing modalities.",
+          "required": {
+            "modality_any_of": [
+              "sar_c_band"
+            ]
+          },
+          "capability": {
+            "modalities": [
+              "optical_multispectral",
+              "thermal_ir"
+            ]
+          },
+          "source_ids": [
+            "usgs-landsat-8",
+            "usgs-landsat-9"
+          ]
+        },
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 1
+          },
+          "capability": {
+            "nominal_revisit_days": 8,
+            "scope": "nominal_combined_offset"
+          },
+          "source_ids": [
+            "usgs-landsat-acquisition-schedules",
+            "usgs-landsat-acquisition-plan"
+          ]
+        },
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    }
+  ]
+}

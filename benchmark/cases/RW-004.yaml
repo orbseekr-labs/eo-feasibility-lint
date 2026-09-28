@@ -1,0 +1,9 @@
+# RW-004 — authored by Agent 2 (blind expected-label author), 2026-09-28.
+# Input mapped from requirements.yaml per LABELING_NOTES.md policy; not tuned to any verdict.
+schema_version: '0.1'
+name: rw-004
+requirements:
+  modality_any_of:
+  - sar_c_band
+  output:
+    kind: model_inference

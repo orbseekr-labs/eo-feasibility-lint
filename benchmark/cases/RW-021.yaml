@@ -1,0 +1,9 @@
+# RW-021 — authored by Agent 2 (blind expected-label author), 2026-09-28.
+# Input mapped from requirements.yaml per LABELING_NOTES.md policy; not tuned to any verdict.
+schema_version: '0.1'
+name: rw-021
+requirements:
+  spectral_bands_all_of:
+  - thermal_ir
+  output:
+    kind: derived_product

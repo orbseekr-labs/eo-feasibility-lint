@@ -368,6 +368,8 @@ pytest
 
 The mission catalog is validated on every load; CI fails on a missing source, a duplicate id, an unknown band family or an invalid capability value. The 16 mandatory specification cases live in [`tests/test_mandatory_cases.py`](tests/test_mandatory_cases.py).
 
+A blind real-world benchmark (30 extracted cases, 25 runnable) lives in [`benchmark/`](benchmark/), and [`tests/test_benchmark.py`](tests/test_benchmark.py) re-runs it offline. Its method, results and limitations are in [docs/real-world-validation.md](docs/real-world-validation.md). It checks agreement with spec-based labels and is not an accuracy estimate. The latest catalog freshness audit is [docs/catalog-freshness-2026-09-28.md](docs/catalog-freshness-2026-09-28.md).
+
 [SPECIFICATION.md](SPECIFICATION.md) is the authoritative normative specification for v0.1.0 — verdict semantics, the catalog model, every rule, the reason-code registry, determinism and provenance requirements, and the accepted implementation decisions. Where this README and the specification differ, the specification governs.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) before adding a mission, a rule or a reason code — the v0.1 design is frozen, and several tempting changes are deliberately out of scope.

@@ -1,0 +1,114 @@
+{
+  "schema_version": "0.1",
+  "ruleset_version": "0.1.0",
+  "catalog_version": "2026-08-15.1",
+  "requirement": {
+    "name": "rw-014"
+  },
+  "portfolio_verdict": "CONDITIONAL",
+  "mission_results": [
+    {
+      "mission_id": "sentinel-2",
+      "verdict": "CONDITIONAL",
+      "findings": [
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    },
+    {
+      "mission_id": "sentinel-1-iw",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL201",
+          "effect": "FAIL",
+          "title": "Required modality unavailable",
+          "message": "The mission does not provide the optical_multispectral modality implied by the spatial.optical_max_gsd_m requirement.",
+          "required": {
+            "modality": "optical_multispectral",
+            "implied_by": "spatial.optical_max_gsd_m"
+          },
+          "capability": {
+            "modalities": [
+              "sar_c_band"
+            ]
+          },
+          "source_ids": [
+            "esa-sentiwiki-s1-mission"
+          ]
+        },
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-8",
+      "verdict": "CONDITIONAL",
+      "findings": [
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-9",
+      "verdict": "CONDITIONAL",
+      "findings": [
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-8-9",
+      "verdict": "CONDITIONAL",
+      "findings": [
+        {
+          "code": "EFL801",
+          "effect": "CONDITIONAL",
+          "title": "Derived processing required",
+          "message": "The requested output is a derived product: processing beyond raw acquisition is required, and the mission specification alone cannot establish that it will succeed.",
+          "required": {
+            "output_kind": "derived_product"
+          },
+          "capability": {},
+          "source_ids": []
+        }
+      ]
+    }
+  ]
+}

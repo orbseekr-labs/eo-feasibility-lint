@@ -1,0 +1,194 @@
+{
+  "schema_version": "0.1",
+  "ruleset_version": "0.1.0",
+  "catalog_version": "2026-08-15.1",
+  "requirement": {
+    "name": "rw-027"
+  },
+  "portfolio_verdict": "PASS",
+  "mission_results": [
+    {
+      "mission_id": "sentinel-2",
+      "verdict": "PASS",
+      "findings": [
+        {
+          "code": "EFL402",
+          "effect": "PASS",
+          "title": "Nominal revisit is not an availability guarantee",
+          "message": "The nominal revisit interval satisfies the requirement. Nominal revisit is not equivalent to guaranteed usable observation frequency at a particular location.",
+          "required": {
+            "max_nominal_revisit_days": 12.5
+          },
+          "capability": {
+            "nominal_revisit_days": 5,
+            "scope": "equator_constellation_nominal"
+          },
+          "source_ids": [
+            "esa-sentiwiki-s2-mission"
+          ]
+        }
+      ]
+    },
+    {
+      "mission_id": "sentinel-1-iw",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL201",
+          "effect": "FAIL",
+          "title": "Required modality unavailable",
+          "message": "The mission does not provide the optical_multispectral modality implied by the spatial.optical_max_gsd_m requirement.",
+          "required": {
+            "modality": "optical_multispectral",
+            "implied_by": "spatial.optical_max_gsd_m"
+          },
+          "capability": {
+            "modalities": [
+              "sar_c_band"
+            ]
+          },
+          "source_ids": [
+            "esa-sentiwiki-s1-mission"
+          ]
+        },
+        {
+          "code": "EFL202",
+          "effect": "FAIL",
+          "title": "Required spectral band family unavailable",
+          "message": "The mission does not provide the nir band family.",
+          "required": {
+            "spectral_band_family": "nir"
+          },
+          "capability": {
+            "band_family": "nir",
+            "available": false
+          },
+          "source_ids": [
+            "esa-sentiwiki-s1-mission",
+            "esa-sentiwiki-s1-products"
+          ]
+        },
+        {
+          "code": "EFL202",
+          "effect": "FAIL",
+          "title": "Required spectral band family unavailable",
+          "message": "The mission does not provide the swir band family.",
+          "required": {
+            "spectral_band_family": "swir"
+          },
+          "capability": {
+            "band_family": "swir",
+            "available": false
+          },
+          "source_ids": [
+            "esa-sentiwiki-s1-mission",
+            "esa-sentiwiki-s1-products"
+          ]
+        },
+        {
+          "code": "EFL202",
+          "effect": "FAIL",
+          "title": "Required spectral band family unavailable",
+          "message": "The mission does not provide the visible band family.",
+          "required": {
+            "spectral_band_family": "visible"
+          },
+          "capability": {
+            "band_family": "visible",
+            "available": false
+          },
+          "source_ids": [
+            "esa-sentiwiki-s1-mission",
+            "esa-sentiwiki-s1-products"
+          ]
+        },
+        {
+          "code": "EFL402",
+          "effect": "PASS",
+          "title": "Nominal revisit is not an availability guarantee",
+          "message": "The nominal revisit interval satisfies the requirement. Nominal revisit is not equivalent to guaranteed usable observation frequency at a particular location.",
+          "required": {
+            "max_nominal_revisit_days": 12.5
+          },
+          "capability": {
+            "nominal_revisit_days": 6,
+            "scope": "equator_two_satellite_nominal"
+          },
+          "source_ids": [
+            "esa-s1-facts-and-figures",
+            "esa-sentiwiki-s1-mission"
+          ]
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-8",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 12.5
+          },
+          "capability": {
+            "nominal_revisit_days": 16,
+            "scope": "nominal_repeat_cycle"
+          },
+          "source_ids": [
+            "usgs-landsat-8",
+            "usgs-landsat-acquisition-schedules"
+          ]
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-9",
+      "verdict": "FAIL",
+      "findings": [
+        {
+          "code": "EFL401",
+          "effect": "FAIL",
+          "title": "Nominal revisit requirement unmet",
+          "message": "The mission's nominal revisit interval is longer than required.",
+          "required": {
+            "max_nominal_revisit_days": 12.5
+          },
+          "capability": {
+            "nominal_revisit_days": 16,
+            "scope": "nominal_repeat_cycle"
+          },
+          "source_ids": [
+            "usgs-landsat-9",
+            "usgs-landsat-acquisition-schedules"
+          ]
+        }
+      ]
+    },
+    {
+      "mission_id": "landsat-8-9",
+      "verdict": "PASS",
+      "findings": [
+        {
+          "code": "EFL402",
+          "effect": "PASS",
+          "title": "Nominal revisit is not an availability guarantee",
+          "message": "The nominal revisit interval satisfies the requirement. Nominal revisit is not equivalent to guaranteed usable observation frequency at a particular location.",
+          "required": {
+            "max_nominal_revisit_days": 12.5
+          },
+          "capability": {
+            "nominal_revisit_days": 8,
+            "scope": "nominal_combined_offset"
+          },
+          "source_ids": [
+            "usgs-landsat-acquisition-schedules",
+            "usgs-landsat-acquisition-plan"
+          ]
+        }
+      ]
+    }
+  ]
+}

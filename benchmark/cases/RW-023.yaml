@@ -1,0 +1,11 @@
+# RW-023 — authored by Agent 2 (blind expected-label author), 2026-09-28.
+# Input mapped from requirements.yaml per LABELING_NOTES.md policy; not tuned to any verdict.
+schema_version: '0.1'
+name: rw-023
+requirements:
+  modality_any_of:
+  - thermal_ir
+  spatial:
+    thermal_max_gsd_m: 50
+  output:
+    kind: derived_product
